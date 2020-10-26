@@ -11,8 +11,6 @@ import '../constants.dart';
 import 'single_chat_screen.dart';
 import 'users_search_screen.dart';
 
-User loggedInUser;
-
 class MainScreen extends StatefulWidget {
   static String id = 'main_screen';
 
@@ -20,27 +18,8 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
-String messageText;
-
 class _MainScreenState extends State<MainScreen> {
   final _auth = FirebaseAuth.instance;
-
-  @override
-  void initState() {
-    super.initState();
-    getCurrentUser();
-  }
-
-  void getCurrentUser() {
-    try {
-      final user = _auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +46,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         body: TabBarView(
-          children: [
-            SingleChatScreen(
-              user: loggedInUser,
-            ),
-            UsersSearchScreen()
-          ],
+          children: [SingleChatScreen(), UsersSearchScreen()],
         ),
       ),
     );

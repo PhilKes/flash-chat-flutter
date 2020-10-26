@@ -33,3 +33,7 @@ const kInputTextFieldDecoration = InputDecoration(
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),
 );
+
+const kUsersCollection = 'users';
+const kFriendslistsCollection = 'friendslists';
+const kMessagesCollections = 'messages';

@@ -3,16 +3,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
-import 'chat_screen.dart';
+import 'main_screen.dart';
 import '../components/messages_stream.dart';
 
 final _firestore = Firestore.instance;
+final _auth = FirebaseAuth.instance;
 
 class SingleChatScreen extends StatelessWidget {
-  SingleChatScreen({@required this.user});
+  SingleChatScreen();
 
-  User user;
+  User user = _auth.currentUser;
   final TextEditingController messageTextController = TextEditingController();
+
+  String messageText;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,7 @@ class SingleChatScreen extends StatelessWidget {
                     try {
                       _firestore.collection('messages').add({
                         'text': messageText,
-                        'sender': loggedInUser.email,
+                        'sender': user.email,
                         'timestamp': DateTime.now().millisecondsSinceEpoch
                       });
                       messageTextController.clear();

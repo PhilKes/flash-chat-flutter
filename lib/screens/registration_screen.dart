@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/constants.dart';
-import 'package:flash_chat/screens/chat_screen.dart';
+import 'package:flash_chat/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -14,6 +15,7 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
+  final _firestore = Firestore.instance;
 
   bool showSpinner = false;
 
@@ -76,6 +78,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     final newUser = await _auth.createUserWithEmailAndPassword(
                         email: email.trim(), password: password);
                     if (newUser != null) {
+                      try {
+                        _firestore
+                            .collection(kUsersCollection)
+                            .doc(email.trim())
+                            .set({
+                          'name': email.trim(),
+                          'timestamp': DateTime.now().millisecondsSinceEpoch
+                        });
+                        _firestore
+                            .collection(kFriendslistsCollection)
+                            .doc(email.trim())
+                            .set({'user': email.trim(), 'friends': []});
+                      } catch (e) {
+                        print(e);
+                      }
                       Navigator.pushNamed(context, MainScreen.id);
                     }
                     setState(() {
@@ -83,6 +100,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     });
                   } catch (e) {
                     print(e);
+                    setState(() {
+                      showSpinner = false;
+                    });
                   }
                 },
                 color: Colors.blueAccent,

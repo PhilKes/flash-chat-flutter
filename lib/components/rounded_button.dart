@@ -8,11 +8,13 @@ class RoundedButton extends StatelessWidget {
       this.color,
       this.icon,
       this.width,
-      this.circle});
+      this.circle,
+      this.iconColor});
 
   final String text;
   final Function onPressed;
   final Color color;
+  final Color iconColor;
   final IconData icon;
   final double width;
   final bool circle;
@@ -39,7 +41,7 @@ class RoundedButton extends StatelessWidget {
               : Icon(
                   icon,
                   size: 42.0,
-                  color: Colors.white,
+                  color: iconColor != null ? iconColor : Colors.white,
                 ),
         ),
       ),
