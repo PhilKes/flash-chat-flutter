@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/components/rounded_button.dart';
+import 'package:flash_chat/screens/chats_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
 
@@ -24,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           leading: null,
@@ -41,12 +42,13 @@ class _MainScreenState extends State<MainScreen> {
           bottom: TabBar(
             tabs: [
               Tab(icon: Icon(Icons.message)),
+              Tab(icon: Icon(Icons.message)),
               Tab(icon: Icon(Icons.search))
             ],
           ),
         ),
         body: TabBarView(
-          children: [SingleChatScreen(), UsersSearchScreen()],
+          children: [ChatsScreen(), SingleChatScreen(), UsersSearchScreen()],
         ),
       ),
     );

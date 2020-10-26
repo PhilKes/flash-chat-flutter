@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/components/rounded_button.dart';
-import 'package:flash_chat/components/user_entry.dart';
+import 'package:flash_chat/components/user_search_entry.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -152,7 +152,7 @@ class _UsersStreamState extends State<UsersStream> {
             final userName = user.get('name');
             if (userName.toString().contains(widget.search) &&
                 userName.toString() != _auth.currentUser.email.trim()) {
-              final userBox = UserEntry(
+              final userBox = UserSearchEntry(
                 name: userName,
                 alreadyAdded: hasAlreadyAdded(userName),
                 onAddFriend: addFriend,
@@ -161,7 +161,7 @@ class _UsersStreamState extends State<UsersStream> {
             }
           }
           if (usersBox.isEmpty) {
-            usersBox.add(UserEntry(
+            usersBox.add(UserSearchEntry(
               name: "No Users found",
               alreadyAdded: true,
               onAddFriend: addFriend,
@@ -169,7 +169,6 @@ class _UsersStreamState extends State<UsersStream> {
           }
           return Expanded(
             child: ListView(
-              reverse: true,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               children: usersBox,
             ),
@@ -177,7 +176,7 @@ class _UsersStreamState extends State<UsersStream> {
         }
         return Column(
           children: [
-            UserEntry(
+            UserSearchEntry(
               name: "No Users found",
               alreadyAdded: true,
               onAddFriend: addFriend,
