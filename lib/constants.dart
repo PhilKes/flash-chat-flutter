@@ -34,6 +34,15 @@ const kInputTextFieldDecoration = InputDecoration(
   ),
 );
 
+String getChatName(String user1, String user2) {
+  if (user1.compareTo(user2) > 0) {
+    return '$user2:$user1';
+  } else {
+    return '$user1:$user2';
+  }
+}
+
 const kUsersCollection = 'users';
+const kChatsCollection = 'chats';
 const kFriendslistsCollection = 'friendslists';
 const kMessagesCollections = 'messages';

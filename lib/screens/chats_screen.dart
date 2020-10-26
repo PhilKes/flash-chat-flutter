@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/components/user_entry.dart';
 import 'package:flash_chat/components/user_search_entry.dart';
+import 'package:flash_chat/screens/single_chat_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -73,8 +74,19 @@ class _ChatsStreamState extends State<ChatsStream> {
     });
   }
 
-  void openChat(String username) {
+  void openChat(String username) async {
     print('Open Chat ' + username);
+    String chatName = getChatName(_auth.currentUser.email.trim(), username);
+    var chat =
+        await _firestore.collection(kChatsCollection).doc(chatName).get();
+    if (!chat.exists) {
+      await _firestore
+          .collection(kChatsCollection)
+          .doc(chatName)
+          .set({'name': chatName, 'messages': []});
+    }
+    Navigator.pushNamed(context, SingleChatScreen.id,
+        arguments: SingleChatScreenArguments(otherUsername: username));
   }
 
   @override

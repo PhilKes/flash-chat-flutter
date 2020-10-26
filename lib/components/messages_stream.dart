@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_chat/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'message_bubble.dart';
@@ -7,23 +8,24 @@ import 'message_bubble.dart';
 final _firestore = Firestore.instance;
 
 class MessagesStream extends StatelessWidget {
-  MessagesStream({@required this.user});
+  MessagesStream({@required this.user, @required this.chatName});
   User user;
+  String chatName;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: _firestore
-          .collection('messages')
-          .orderBy('timestamp', descending: true)
-          .snapshots(),
+    return StreamBuilder<DocumentSnapshot>(
+      stream: _firestore.collection(kChatsCollection).doc(chatName).snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          final messages = snapshot.data.docs;
+          final chat = snapshot.data;
           List<MessageBubble> messageBubbles = [];
-          for (var message in messages) {
-            final messageText = message.get('text');
-            final messageSender = message.get('sender');
+          List<dynamic> msgs = List.castFrom(chat.get('messages'));
+          msgs.sort((msg1, msg2) => DateTime.parse(msg2['timestamp'])
+              .compareTo(DateTime.parse(msg1['timestamp'])));
+          for (var msg in msgs) {
+            final messageText = msg['text'];
+            final messageSender = msg['sender'];
 
             final messageBubble = MessageBubble(
               text: messageText,

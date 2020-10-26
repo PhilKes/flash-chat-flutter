@@ -25,30 +25,26 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
-          leading: null,
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  _auth.signOut();
-                  Navigator.pop(context);
-                }),
-          ],
+          leading: IconButton(
+              icon: Icon(Icons.exit_to_app),
+              onPressed: () {
+                _auth.signOut();
+                Navigator.pop(context);
+              }),
           title: Text('⚡️Chat'),
           backgroundColor: Colors.lightBlueAccent,
           bottom: TabBar(
             tabs: [
-              Tab(icon: Icon(Icons.message)),
               Tab(icon: Icon(Icons.message)),
               Tab(icon: Icon(Icons.search))
             ],
           ),
         ),
         body: TabBarView(
-          children: [ChatsScreen(), SingleChatScreen(), UsersSearchScreen()],
+          children: [ChatsScreen(), UsersSearchScreen()],
         ),
       ),
     );
