@@ -62,6 +62,7 @@ class _UsersSearchScreenState extends State<UsersSearchScreen> {
         children: <Widget>[
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Expanded(
                 child: TextField(

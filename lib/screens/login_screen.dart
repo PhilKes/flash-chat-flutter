@@ -18,6 +18,55 @@ class _LoginScreenState extends State<LoginScreen> {
   String password;
   bool showSpinner = false;
 
+  void tryLogin() async {
+    setState(() {
+      showSpinner = true;
+    });
+    try {
+      final user = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      if (user != null) {
+        Navigator.pushNamed(context, MainScreen.id);
+      }
+      setState(() {
+        showSpinner = false;
+      });
+    } on FirebaseAuthException catch (e) {
+      //print(e.toString());
+      setState(() {
+        showSpinner = false;
+      });
+      showLoginError(e.message);
+    }
+  }
+
+  Future<void> showLoginError(error) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Login failed'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(error),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            MaterialButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,26 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               RoundedButton(
                 text: 'Log in',
-                onPressed: () async {
-                  setState(() {
-                    showSpinner = true;
-                  });
-                  try {
-                    final user = await _auth.signInWithEmailAndPassword(
-                        email: email, password: password);
-                    if (user != null) {
-                      Navigator.pushNamed(context, MainScreen.id);
-                    }
-                    setState(() {
-                      showSpinner = false;
-                    });
-                  } catch (e) {
-                    print(e);
-                    setState(() {
-                      showSpinner = false;
-                    });
-                  }
-                },
+                onPressed: tryLogin,
                 color: Colors.lightBlueAccent,
               ),
             ],
