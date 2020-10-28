@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_chat/components/messages/messages_stream.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
 import 'main_screen.dart';
-import '../components/messages_stream.dart';
 
 final _firestore = Firestore.instance;
 final _auth = FirebaseAuth.instance;

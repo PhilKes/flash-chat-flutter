@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/components/rounded_button.dart';
-import 'package:flash_chat/components/user_search_entry.dart';
+import 'package:flash_chat/components/users/user_search_entry.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
